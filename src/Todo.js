@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addTodo, deleteTodo } from "./actions/index";
+import { Button, List, Form, Icon, Header } from "semantic-ui-react";
 
 // Add ToDo in Local Storage
 
@@ -18,7 +19,7 @@ function ToDo() {
   const [InputList, setInputList] = useState("");
   const list = useSelector((state) => state.todoReducers.list);
   //const [Items, setItems] = useState([]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // useEffect(() => {
   //   localStorage.setItem("lists", JSON.stringify(list));
@@ -27,31 +28,40 @@ function ToDo() {
   return (
     <div className="main_div">
       <div className="center_div">
-        <h1>ToDo-List</h1>
+        <Header className="header" as="h1">
+          First Header
+        </Header>
         <br />
-        <input
-          type="text"
-          placeholder="Add a Items"
-          onChange={(e) => setInputList(e.target.value)}
-          value={InputList}
-        />
-        <button onClick={() => dispatch(addTodo(InputList), setInputList(""))}>
+        <Form>
+          <Form.Input
+            focus
+            error={{ content: "Please enter your work", pointing: "below" }}
+            type="text"
+            placeholder="Add a Items"
+            onChange={(e) => setInputList(e.target.value)}
+            value={InputList}
+          />
+        </Form>
+        <Button
+          primary
+          onClick={() => dispatch(addTodo(InputList), setInputList(""))}
+        >
           ADD
-        </button>
-        <ol>
+        </Button>
+        <List>
           {list.map((elem) => {
             return (
               <div className="todo_style" key={elem.id}>
-                <i
-                  className="fa fa-times"
-                  aria-hidden="true"
+                <Icon
+                  ClassName="icon"
+                  name="delete"
                   onClick={() => dispatch(deleteTodo(elem.id))}
                 />
-                <li>{elem.data}</li>
+                <List.Item>{elem.data}</List.Item>
               </div>
             );
           })}
-        </ol>
+        </List>
       </div>
     </div>
   );
